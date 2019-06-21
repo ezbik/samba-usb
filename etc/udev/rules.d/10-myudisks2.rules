@@ -1,0 +1,6 @@
+
+#One way of doing that is to write an udev rule that makes udisks2 ignore any added block devices. This can be done by dropping a file 10-myudisks2.rules in /etc/udev/rules.d with the rule:
+
+
+ACTION=="add|change", SUBSYSTEM=="block", ENV{UDISKS_IGNORE}="1"
+

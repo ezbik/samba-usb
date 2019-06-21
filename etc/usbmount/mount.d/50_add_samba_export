@@ -1,0 +1,27 @@
+#!/bin/bash
+
+LABEL=$( /sbin/blkid -p $DEVNAME | sed 's/.*[[:blank:]]LABEL="\([^"]*\)".*/\1/g; s/[[:blank:]]*//g;' )
+LABEL=${LABEL:-USB}
+
+UM_VENDOR=
+UM_MODEL=
+ID_FS_TYPE=
+
+SHARENAME=`basename $UM_MOUNTPOINT`
+
+cat > /etc/samba/auto/$SHARENAME.conf <<EOF
+[$LABEL]
+   #comment = $UM_VENDOR $UM_MODEL, $UM_FILESYSTEM, $SHARENAME
+   comment = $SHARENAME, $UM_FILESYSTEM
+   path = $UM_MOUNTPOINT
+   read only = no
+   writeable = yes
+   browseable = yes
+   guest ok = yes
+   public = yes
+   create mask = 0777
+   directory mask = 0777
+   force user = root
+EOF
+ 
+/etc/init.d/smbd restart

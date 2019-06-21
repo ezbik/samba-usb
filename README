@@ -1,0 +1,22 @@
+
+Before installation make sure all ubuntu desktop automounters are OFF
+Insert flash usb drive - nothing must happen - then proceed with installation
+
+Run INSTALL.sh
+
+insert flash usb drive - watch logs in `journalctl -f`, after some time it is mounted under /media/usbX
+and exported as LABEL share where LABEL is a name of the filesystem. In this example LABEL=NYNY
+
+ smbclient -I 192.168.135.4  -L 192.168.135.4 
+Domain=[WORKGROUP] OS=[Windows 6.1] Server=[Samba 4.7.6-Ubuntu]
+
+    Sharename       Type      Comment
+    ---------       ----      -------
+    print$          Disk      Printer Drivers
+    NYNY            Disk      usb0, ntfs
+    IPC$            IPC       IPC Service (sitea-nozt server (Samba, Ubuntu))
+Domain=[WORKGROUP] OS=[Windows 6.1] Server=[Samba 4.7.6-Ubuntu]
+
+Then you remove the flash drive and it is unmounted ( can be seen by `df` output  and refreshing smb shares list).
+
+

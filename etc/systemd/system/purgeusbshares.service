@@ -1,0 +1,16 @@
+
+[Unit]
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/find /etc/samba/auto/ -type f -delete
+Type=oneshot
+StandardOutput=syslog
+StandardError=syslog
+RemainAfterExit=true
+
+
+[Install]
+WantedBy=default.target
+RequiredBy=smbd.service
+
