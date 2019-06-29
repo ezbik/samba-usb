@@ -8,9 +8,11 @@
 #KERNEL=="ub*",				ACTION=="remove",	RUN+="/usr/share/usbmount/usbmount remove"
 #############
 
-KERNEL=="sd*", DRIVERS=="sbp2",   ENV{PARTNAME}!="EFI System", ACTION=="add",  PROGRAM="/bin/systemd-escape -p --template=usbmount@.service $env{DEVNAME}", ENV{SYSTEMD_WANTS}+="%c"
-KERNEL=="sd*", SUBSYSTEMS=="usb", ENV{PARTNAME}!="EFI System", ACTION=="add",  PROGRAM="/bin/systemd-escape -p --template=usbmount@.service $env{DEVNAME}", ENV{SYSTEMD_WANTS}+="%c"
-KERNEL=="ub*", SUBSYSTEMS=="usb", ENV{PARTNAME}!="EFI System", ACTION=="add",  PROGRAM="/bin/systemd-escape -p --template=usbmount@.service $env{DEVNAME}", ENV{SYSTEMD_WANTS}+="%c"
+# exclude `EFI System` partitions
+
+KERNEL=="sd*", DRIVERS=="sbp2",   ENV{ID_PART_ENTRY_TYPE}!="c12a7328-f81f-11d2-ba4b-00a0c93ec93b", ACTION=="add",  PROGRAM="/bin/systemd-escape -p --template=usbmount@.service $env{DEVNAME}", ENV{SYSTEMD_WANTS}+="%c"
+KERNEL=="sd*", SUBSYSTEMS=="usb", ENV{ID_PART_ENTRY_TYPE}!="c12a7328-f81f-11d2-ba4b-00a0c93ec93b", ACTION=="add",  PROGRAM="/bin/systemd-escape -p --template=usbmount@.service $env{DEVNAME}", ENV{SYSTEMD_WANTS}+="%c"
+KERNEL=="ub*", SUBSYSTEMS=="usb", ENV{ID_PART_ENTRY_TYPE}!="c12a7328-f81f-11d2-ba4b-00a0c93ec93b", ACTION=="add",  PROGRAM="/bin/systemd-escape -p --template=usbmount@.service $env{DEVNAME}", ENV{SYSTEMD_WANTS}+="%c"
 KERNEL=="sd*",                          ACTION=="remove",       RUN+="/usr/share/usbmount/usbmount remove"
 KERNEL=="ub*",                          ACTION=="remove",       RUN+="/usr/share/usbmount/usbmount remove"
 
