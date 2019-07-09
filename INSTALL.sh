@@ -1,6 +1,6 @@
 
 
-sudo apt install usbmount samba rsync dosfstools ntfs-3g
+sudo apt install usbmount samba rsync dosfstools ntfs-3g exfat-fuse exfat-utils
 sudo rsync -av etc/ /etc/
 sudo rsync -av lib/ /lib/
 
